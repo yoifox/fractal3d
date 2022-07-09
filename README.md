@@ -1,3 +1,3 @@
-Rotate with arrow keys.
-Look with mouse with left button pressed.
-Move with wasd.
+Rotate with arrow keys.</br>
+Look with mouse with left button pressed.</br>
+Move with wasd.</br>
