@@ -123,9 +123,10 @@ float sphereSpongeDE(vec3 pos, bool isLight) {
         d1 = (spongeScale - r) / k;
         k *= scale;
         d = max(d, d1);
-        if (i < COLOR_ITERATIONS) {
+        if (i < COLOR_ITERATIONS && !isLight) {
             md = min(md, d);
             cd = r;
+            orbitTrap = min(orbitTrap, abs(vec4(md*r, md*r, md*r, md*r)));
         }
     }
 
@@ -150,11 +151,12 @@ float mengerSpongeDE(vec3 pos, bool isLight) {
         v = vec3(0.5) - abs(a - vec3(1.5)) + 0;
         d1 = min(max(v.x, v.z), min(max(v.x, v.y), max(v.y, v.z))) / p;
         d = max(d, d1);
-        if (i < COLOR_ITERATIONS) {
+        if (i < COLOR_ITERATIONS && !isLight) {
             md = min(md, d);
             cd = v;
         }
     }
+    orbitTrap = vec4(1, 1, 1, 1);
 
     return d;
 }
@@ -271,8 +273,8 @@ void main() {
 
         vec3 gradient = mix(vec3(0.3, 0.3, 1), vec3(0.2, 0.2, 0.3), smoothstep(0.0, 1.0, vUv.y));
 
-        //vec4 baseColor = vec4(orbitTrap.z + diffuse * 0.6, orbitTrap.x + diffuse * 0.6, orbitTrap.w / 4.0, 1.0) * orbitTrap.w * 0.6 + 0.1;
-        vec4 baseColor = vec4(0.5, 0.5, 0.5, 1) + diffuse * 0.6;
+        vec4 baseColor = vec4(orbitTrap.z + diffuse * 0.6, orbitTrap.x + diffuse * 0.6, orbitTrap.w / 4.0, 1.0) * orbitTrap.w * 0.6 + 0.1;
+        //vec4 baseColor = vec4(0.5, 0.5, 0.5, 1) + diffuse * 0.6;
 
         fragOutColor = mix(baseColor,vec4(gradient,1.0),clamp(marchedDistance*0.25,0.0,1.0) / 2.0);
         if(marchedDistance > MAX_DIST) {

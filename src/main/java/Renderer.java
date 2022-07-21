@@ -56,7 +56,7 @@ public class Renderer {
 
     private void setUniformsDefaultValue() {
         shader.bind();
-        setUniform("fractal", Fractals.MANDELBOX);
+        setUniform("fractal", Fractals.SPHERE_SPONGE);
         setUniform("resolution", new Vector2f(scene.window.getWidth(), scene.window.getHeight()));
         setUniform("cameraPos", new Vector3f(0, 0, 0));
         setUniform("rotation", new Vector2f(0, 0));
